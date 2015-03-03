@@ -1,0 +1,11 @@
+## Interface: 60100
+## Title: Probably - |cFF32ff84Svs Rotations|r
+## Notes: ProbablyEngine Svs Rotations
+## Dependencies: Probably
+
+rotations\druid\balance.lua
+rotations\monk\mistweaver.lua
+rotations\priest\discipline.lua
+rotations\priest\shadow.lua
+
+
