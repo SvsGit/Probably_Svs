@@ -56,21 +56,21 @@ local aoe = {
 
 local serpent = {
   { "!116849", {"focus.health <= 30" }, "focus" }, -- Life Cocoon
-  { "116680", "focus.health <= 30", "player" }, -- TfT
+  --{ "116680", "focus.health <= 30", "player" }, -- TfT
   { "115072" }, -- Expel Harm
-  { "/stopcasting", { "lowest.health = 100", function() local s,_=UnitChannelInfo("player"); return s and s == GetSpellInfo(115175) end }}, -- Soothing Mist cancel
+  --{ "/stopcasting", { "lowest.health = 100", function() local s,_ = UnitChannelInfo("player"); return s and s == GetSpellInfo(115175) end }}, -- Soothing Mist cancel
   { "!115175", { "focus.health <= 100", "!player.moving", "!player.spell(116670).casting", "!lastcast(115175)", "focus.buff(115175).duration <= 1" }, "focus" }, -- Soothing Mist
   { "124682", { "player.casting", "focus.health <= 60", "player.chi >= 3" }, "focus" }, -- EnM
   { "116694", { "player.casting", "focus.health <= 50", "!lastcast(116694)" }, "focus" }, -- Surging Mist
 
   { "!116849", "tank.health <= 30", "tank" }, -- Life Cocoon
   { "!115175", { "tank.health <= 15", "!player.moving", "!player.spell(116670).casting", "!lastcast(115175)", "tank.buff(115175).duration <= 1" }, "tank" }, -- Soothing Mist
-  { "116680", { "tank.health <= 15" }}, -- TfT
-  { "124682", { "player.casting", "tank.health <= 15", "player.chi >= 3" }, "tank" }, -- EnM
-  { "116694", { "player.casting", "tank.health <= 15" }, "tank" }, -- Surging Mist
+  --{ "116680", { "tank.health <= 15" }}, -- TfT
+  { "124682", { "player.casting", "tank.health <= 50", "player.chi >= 3" }, "tank" }, -- EnM
+  { "116694", { "player.casting", "tank.health <= 40" }, "tank" }, -- Surging Mist
 
   { "!115175", { "lowest.health <= 10", "!player.moving", "!player.spell(116670).casting", "!lastcast(115175)", "lowest.buff(115175).duration <= 1" }, "lowest" }, -- Soothing Mist
-  { "116680", "lowest.health <= 10" , "player" }, -- TfT
+  --{ "116680", "lowest.health <= 10" , "player" }, -- TfT
   { "124682", { "player.casting", "lowest.health <= 10", "player.chi >= 3" }, "lowest" }, -- EnM
   { "116694", { "player.casting", "lowest.health <= 10" }, "lowest" }, -- Surging Mist  
 
@@ -86,20 +86,21 @@ local serpent = {
   { aoe, "modifier.multitarget" },
 
   { "116680", "@coreHealing.needsHealing(80, 5)", "player" }, -- TfT
-  { "115460", { "@coreHealing.needsHealing(85, 4)", "!player.spell(116670).casting", "player.mana >= 10" }}, -- Detonate Chi
-  { "#trinket1", "@coreHealing.needsHealing(85, 4)" },
-  { "!116670", { "@coreHealing.needsHealing(85, 4)", "!player.moving", "!player.spell(116670).casting", "player.chi >= 2" }, "player" }, -- Uplift
+  --{ "115460", { "@coreHealing.needsHealing(70, 4)", "!player.spell(116670).casting", "player.mana >= 10" }}, -- Detonate Chi
+  { "#trinket1", "@coreHealing.needsHealing(87, 4)" },
+  { "115399", {"@coreHealing.needsHealing(87, 4)", "player.spell(115399).charges >= 1", "player.chi < 1", "!lastcast(115399)" }}, -- Chi Brew
+  { "!116670", { "@coreHealing.needsHealing(90, 4)", "!player.moving", "!player.spell(116670).casting", "player.chi >= 2" }, "player" }, -- Uplift
   
   --{ "157675", { "talent(7,2)", "player.casting", "player.chi >= 4", "lowest.health <= 70" }, "lowest" }, -- Chi Explosion
   --{ "157675", { "talent(7,2)", "player.casting", "player.chi >= 4", "tank.health <= 70" }, "tank" }, -- Chi Explosion
   
   { "!115175", { "lowest.health <= 80", "!player.moving", "!lastcast(115175)", "lowest.buff(115175).duration <= 1" }, "lowest" }, -- Soothing Mist
   { "124682", { "!talent(7,2)", "player.casting", "lowest.health <= 70", "player.chi > 2" }, "lowest" }, -- EnM
-  { "116694", { "player.casting", "lowest.health <= 50", "!lastcast(116694)" }, "lowest" }, -- Surging Mist
+  { "116694", { "player.casting", "lowest.health <= 40", "!lastcast(116694)" }, "lowest" }, -- Surging Mist
   { "115175", { "tank.health < 100", "!player.moving", "!lastcast(115175)", "player.tier17 > 2", "player.chi > 4" }, "tank" }, -- Soothing Mist
   { "115175", { "tank.health <= 80", "!player.moving", "!lastcast(115175)"}, "tank" }, -- Soothing Mist
-  { "124682", { "player.casting", "tank.health <= 50", "player.chi > 2" }, "tank" }, -- EnM
-  { "116694", { "player.casting", "tank.health <= 50", "!lastcast(116694)" }, "tank" }, -- Surging Mist
+  { "124682", { "player.casting", "tank.health <= 60", "player.chi > 2" }, "tank" }, -- EnM
+  { "116694", { "player.casting", "tank.health <= 70", "!lastcast(116694)" }, "tank" }, -- Surging Mist
   { "115175", { "focus.health <= 90", "!player.moving"}, "focus" }, -- Soothing Mist
   
 }
@@ -147,7 +148,9 @@ local crane = {
 local combat = {
   { "pause", "modifier.lalt" },
   { "!115310", "modifier.ralt" },  -- Revival
+  { "124081", { "!tank.buff(124081)", "talent(2,2)" }, "tank" }, -- Zen Sphere  
   { "!115450", "modifier.lshift", "mouseover" }, -- Detox
+  --{ "115313", "!player.totem(115313)", "tank.ground" }, -- Summon Jade Serpent Statue
   { "115313", "modifier.lcontrol", "mouseover.ground" }, -- Summon Jade Serpent Statue
   {{
     { "/targetenemy [noexists]", "!target.exists" }, -- Auto Target & Focus
@@ -161,7 +164,6 @@ local combat = {
   { "123761", { "player.mana < 80", "player.buff(115867).count >= 2" }}, -- Mana Tea
   { "#trinket2", "player.mana < 80" },
   { "115098", { "lowest.health <= 90" }, "lowest" }, -- Chi Wave
-  { "124081", { "!tank.buff(124081)", "talent(2,2)" }, "tank" }, -- Zen Sphere  , "tank.threat > 80"
   { serpent, "player.stance = 1" },
   { crane, "player.stance = 2" },
 }

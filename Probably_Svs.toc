@@ -5,6 +5,7 @@
 
 rotations\druid\balance.lua
 rotations\monk\mistweaver.lua
+rotations\paladin\retribution.lua
 rotations\priest\discipline.lua
 rotations\priest\shadow.lua
 
